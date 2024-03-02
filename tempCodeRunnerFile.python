@@ -1,0 +1,40 @@
+import tkinter as tk
+
+def on_button_click(button_num):
+    print(f"Button {button_num} clicked")
+    # Add your function to perform when a button is clicked
+
+def destroy_window():
+    print("No button clicked. Destroying window.")
+    root.destroy()
+
+def button_click_handler(button_num):
+    clicked.set(True)
+    on_button_click(button_num)
+
+# Create the main window
+root = tk.Tk()
+root.title("Button Click Checker")
+
+# BooleanVar to signal if any button is clicked
+clicked = tk.BooleanVar()
+clicked.set(False)
+
+# Create three buttons
+button1 = tk.Button(root, text="Button 1", command=lambda: button_click_handler(1))
+button2 = tk.Button(root, text="Button 2", command=lambda: button_click_handler(2))
+button3 = tk.Button(root, text="Button 3", command=lambda: button_click_handler(3))
+
+# Pack the buttons
+button1.pack(pady=10)
+button2.pack(pady=10)
+button3.pack(pady=10)
+
+# Set up a timer to destroy the window if no button is clicked within 5 seconds
+root.after(5000, destroy_window)
+
+# Wait for any button click
+root.wait_variable(clicked)
+
+# Close the main window
+root.destroy()
