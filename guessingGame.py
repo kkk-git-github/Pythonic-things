@@ -34,7 +34,7 @@ def main():
     l.append(s2)
     l.append(0)
     l.append(0)
-    publicKeyLength = 5
+    publicKeyLength = 8
     randomKey1 = CreateRandomItemKey(publicKeyLength)
     randomKey2 = CreateRandomItemKey(publicKeyLength)
     randomKey3 = CreateRandomItemKey(publicKeyLength)
