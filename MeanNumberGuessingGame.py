@@ -4,8 +4,8 @@ import numpy as np
 from typing import List
 l:List[int] = []
 root = tk.Tk()
-def RandomNumberGenerating():
-    return random.randint(1, 100)
+def RandomNumberGenerating(limit:int):
+    return random.randint(1, limit)
 
 def TakeMean(L:List[int]):
     return np.mean(L)
@@ -55,14 +55,18 @@ def P2CheckSys(target:tk.Entry, checkSys):
     s2 = User2.checkingSystem(checkSys)
     return s2
 def MeanNumberGuessingGame(v:int):
-    l.append(RandomNumberGenerating())
+    limitF = int(input("Enter the number generating limit: "))
+    if limitF <= 10 or limitF > 100_000:
+        print("Invalid input")
+        root.destroy()
+    l.append(RandomNumberGenerating(limitF))
     p1 = TakeMean(l)
     l2 = []
     var1 = tk.BooleanVar()
     var1.set(False)
     name = tk.Label(root, text="Player 1")
     Inp1 = tk.Entry()
-    Button1 = tk.Button(root, text="Submit", command=lambda:[WaitVariableSetter(var1), l2.append(P1CheckSys(Inp1, p1))])
+    Button1 = tk.Button(root, text="Submit", command=lambda:[WaitVariableSetter(var1), l2.append(abs(P1CheckSys(Inp1, p1)))])
     name.pack(pady=10)
     Inp1.pack()
     Button1.pack()
@@ -73,7 +77,7 @@ def MeanNumberGuessingGame(v:int):
     var2 = tk.BooleanVar()
     var2.set(False)
     Inp2 = tk.Entry()
-    Button2 = tk.Button(root, text="Submit", command=lambda:[WaitVariableSetter(var2), l2.append(P2CheckSys(Inp2, p1))])
+    Button2 = tk.Button(root, text="Submit", command=lambda:[WaitVariableSetter(var2), l2.append(abs(P2CheckSys(Inp2, p1)))])
     name2.pack(pady=10)
     Inp2.pack()
     Button2.pack()
