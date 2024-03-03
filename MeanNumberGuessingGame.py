@@ -60,21 +60,21 @@ def MeanNumberGuessingGame(v:int):
     l2 = []
     var1 = tk.BooleanVar()
     var1.set(False)
-    print("Player 1")
+    name = tk.Label(root, text="Player 1")
     Inp1 = tk.Entry()
     Button1 = tk.Button(root, text="Submit", command=lambda:[WaitVariableSetter(var1), l2.append(P1CheckSys(Inp1, p1))])
-
+    name.pack(pady=10)
     Inp1.pack()
     Button1.pack()
     Button1.wait_variable(var1)
 
     delAll()
-    print("Player 2")
+    name2 = tk.Label(root, text="Player 2")
     var2 = tk.BooleanVar()
     var2.set(False)
     Inp2 = tk.Entry()
     Button2 = tk.Button(root, text="Submit", command=lambda:[WaitVariableSetter(var2), l2.append(P2CheckSys(Inp2, p1))])
-
+    name2.pack(pady=10)
     Inp2.pack()
     Button2.pack()
     Button2.wait_variable(var2)
