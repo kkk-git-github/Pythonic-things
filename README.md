@@ -1,0 +1,1 @@
+This a repository to create my games in Python or to test something new in Python (might be ML in the future). Feel free to download all the files. Note: some files are just for testing for functionalities.
