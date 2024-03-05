@@ -25,16 +25,17 @@ class User:
             return False
 
 
-
-def main():
-    l = []
-    s1 = str(input("Enter player1\'s name: "))
-    s2 = str(input("Enter player2\'s name: "))
-    l.append(s1)
-    l.append(s2)
-    l.append(0)
-    l.append(0)
-    publicKeyLength = 8
+l = []
+s1 = str(input("Enter player1\'s name: "))
+s2 = str(input("Enter player2\'s name: "))
+l.append(s1)
+l.append(s2)
+l.append(0)
+l.append(0)
+level = 1
+def main(lvl:int, lvlLimit:int=15):
+    print("Level: " + str(lvl))
+    publicKeyLength = lvl // 3 + 4
     randomKey1 = CreateRandomItemKey(publicKeyLength)
     randomKey2 = CreateRandomItemKey(publicKeyLength)
     randomKey3 = CreateRandomItemKey(publicKeyLength)
@@ -70,7 +71,12 @@ def main():
             else:
                 delAll()
                 print("You win")
-                root.destroy()
+                if lvl <= lvlLimit:
+                    global level
+                    level += 1
+                    main(level, lvlLimit)
+                else:
+                    root.destroy()
         def delAll(target=root):
             for widget in target.winfo_children():
                 widget.destroy()
@@ -97,12 +103,13 @@ def main():
         timeoutVar = root.after(5000, DestroyWindow)
         root.wait_variable(var)
 
-
     cartonmain()
 
-
-
 if __name__ == "__main__":
-    main()
+    p = int(input("Enter level limit: "))
+    if not (p <= 100 and p >= 0):
+        print("Invalid input")
+        root.destroy()
+    main(level, p)
     root.mainloop()
 
