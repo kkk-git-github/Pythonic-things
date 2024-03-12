@@ -3,31 +3,32 @@ import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 import matplotlib.pyplot as plt
 import os
+# Function to generate random data
+def generate_random_data(num_rows=5):
+    np.random.seed(42)  # Setting seed for reproducibility
+    data = {
+        'account_length': np.random.randint(50, 150, num_rows),
+        'total_day_charge': np.round(np.random.uniform(20, 90, num_rows), 1),
+        'total_eve_charge': np.round(np.random.uniform(5, 60, num_rows), 1),
+        'total_night_charge': np.round(np.random.uniform(5, 15, num_rows), 1),
+        'total_intl_charge': np.round(np.random.uniform(1, 5, num_rows), 1),
+        'customer_service_calls': np.random.randint(0, 5, num_rows),
+        'churn': np.zeros(num_rows)  # Initialize churn column with zeros
+    }
+    condition1 = (data['total_day_charge'] > 75) & (data['total_eve_charge'] > 55)
+    data['churn'][condition1] = np.random.choice([1, 0], size=np.sum(condition1), p=[0.75, 0.25])
+    return pd.DataFrame(data)
+
 # Specify the file path
 file_path = 'data/random_data.csv'
 
 # Check if the file exists
-try:
+if os.path.isfile(file_path):
     # Load the DataFrame from the file
     df = pd.read_csv(file_path)
-except FileNotFoundError:
-    # Generate random data if the file is not found
-    np.random.seed(42)  # Setting seed for reproducibility
-    num_rows = 100
-    data = {
-        'account_length': np.random.randint(50, 150, num_rows),
-        'total_day_charge': np.round(np.random.uniform(20, 60, num_rows), 1),
-        'total_eve_charge': np.round(np.random.uniform(5, 25, num_rows), 1),
-        'total_night_charge': np.round(np.random.uniform(5, 15, num_rows), 1),
-        'total_intl_charge': np.round(np.random.uniform(1, 5, num_rows), 1),
-        'customer_service_calls': np.random.randint(0, 5, num_rows),
-        'churn': np.random.randint(0, 2, num_rows)
-    }
-
-    # Create DataFrame
-    df = pd.DataFrame(data)
-
-    # Save the DataFrame to a file
+else:
+    # Generate random data and save it to a file
+    df = generate_random_data(250)
     df.to_csv(file_path, index=False)
 
 # Plotting the data
@@ -40,15 +41,10 @@ plt.ylabel('Total Eve Charge')
 plt.title('Scatter Plot of Total Day Charge vs Total Eve Charge')
 cbar = plt.colorbar()
 cbar.set_label('Churn')
-
-plt.show()
-
-# Create DataFrame
-df = pd.DataFrame(data)
 y = df["churn"].values
 X = df[["account_length", "customer_service_calls"]].values
 
-# Create a KNN classifier with 6 neighbors
+# Create a KNN classifier with 15 neighbors
 knn = KNeighborsClassifier(n_neighbors=15)
 # Fit the classifier to the data
 knn.fit(X, y)
@@ -60,4 +56,6 @@ y_pred = knn.predict(X_new)
 
 # Print the predictions
 print("Predictions: {}".format(y_pred))
+plt.show()
+
 
