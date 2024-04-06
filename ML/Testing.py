@@ -16,7 +16,9 @@ def generate_random_data(num_rows=5):
         'churn': np.zeros(num_rows)  # Initialize churn column with zeros
     }
     condition1 = (data['total_day_charge'] > 75) & (data['total_eve_charge'] > 55)
+    condition2 = (data['total_day_charge'] < 75) & (data['total_eve_charge'] > 55)
     data['churn'][condition1] = np.random.choice([1, 0], size=np.sum(condition1), p=[0.75, 0.25])
+    data['churn'][condition2] = np.random.choice([1,0], size=np.sum(condition2), p=[0.9, 0.1])
     return pd.DataFrame(data)
 
 # Specify the file path
@@ -48,9 +50,9 @@ X = df[["account_length", "customer_service_calls"]].values
 knn = KNeighborsClassifier(n_neighbors=15)
 # Fit the classifier to the data
 knn.fit(X, y)
-X_new = np.array([[33.2, 19.5],
-                  [2.3, 24.1],
-                  [200.1, 12.3]])
+X_new = np.array([[33.22, 192.5],
+                  [2.3, 234.1],
+                  [2022.2, 12.3]])
 # Predict the labels for the X_new
 y_pred = knn.predict(X_new)
 
